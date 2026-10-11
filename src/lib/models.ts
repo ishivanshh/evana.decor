@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 
 const UserSchema = new Schema({
   name: { type: String, required: true }, email: { type: String, required: true, unique: true, lowercase: true, trim: true },
-  passwordHash: { type: String, required: true }, role: { type: String, enum: ["admin"], default: "admin" },
+  passwordHash: { type: String, required: true }, role: { type: String, enum: ["admin", "customer"], default: "admin" },
 }, { timestamps: true });
 const ProductSchema = new Schema({
   name: { type: String, required: true, trim: true }, slug: { type: String, required: true, unique: true, lowercase: true },

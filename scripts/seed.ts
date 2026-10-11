@@ -21,6 +21,7 @@ async function seed() {
       badge: product.badge,
       stock: 24, published: true, variants: [{ name: "Classic", size: product.size, price: product.price, stock: 24 }],
     } }, { upsert: true });
+    await ProductModel.updateOne({ slug: product.slug, image: /^https:\/\/images\.unsplash\.com\// }, { $set: { image: product.image } });
   }
   for (const name of ["Signature candles", "Ritual candles", "Gift sets"]) {
     const slug = name.toLowerCase().replaceAll(" ", "-");

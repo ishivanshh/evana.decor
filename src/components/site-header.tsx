@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Heart, Menu, Search, ShoppingBag, X } from "lucide-react";
+import { Heart, Menu, Search, ShoppingBag, UserRound, X } from "lucide-react";
 import { useState } from "react";
 import { useCart } from "@/components/cart-provider";
 
-const links = [["Shop", "/shop"], ["Our story", "/about"], ["Journal", "/faq"]];
+const links = [["Shop", "/shop"], ["Candles", "/candles"], ["Wax bars", "/waxbars"], ["Our story", "/about"]];
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -28,6 +28,7 @@ export function SiteHeader() {
         <div className="flex items-center gap-4 sm:gap-5">
           <Link href="/shop" aria-label="Search"><Search size={18} strokeWidth={1.4} /></Link>
           <Link href="/wishlist" aria-label="Wishlist"><Heart size={18} strokeWidth={1.4} /></Link>
+          <Link href="/account" aria-label="Account"><UserRound size={18} strokeWidth={1.4} /></Link>
           <Link href="/cart" className="relative" aria-label={`Shopping bag, ${count} items`}><ShoppingBag size={19} strokeWidth={1.4} />{count > 0 && <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-[#a85f45] text-[9px] text-white">{count}</span>}</Link>
         </div>
       </div>

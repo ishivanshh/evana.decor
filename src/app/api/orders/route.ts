@@ -7,6 +7,8 @@ import { getCouponDiscount } from "@/lib/coupons";
 import { rateLimit, requestIp } from "@/lib/rate-limit";
 import { sendOrderEmail } from "@/lib/email";
 import { getPaymentProvider } from "@/lib/payments/provider";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 const inputSchema = z.object({
   customer: z.object({ name: z.string().trim().min(2).max(100), email: z.string().trim().email().max(254), phone: z.string().trim().regex(/^[6-9]\d{9}$/) }),
@@ -17,6 +19,8 @@ const inputSchema = z.object({
 });
 
 export async function POST(request: Request) {
+  const session = await getServerSession(authOptions);
+  if (session?.user?.role !== "customer") return NextResponse.json({ error: "Please sign in to place an order." }, { status: 401 });
   const limit = rateLimit(`orders:${requestIp(request)}`, 5, 60_000);
   if (!limit.allowed) return NextResponse.json({ error: "Too many checkout attempts. Please try again in a minute." }, { status: 429 });
   const parsed = inputSchema.safeParse(await request.json().catch(() => null));

@@ -19,6 +19,18 @@ MongoDB is used because orders, customer snapshots, items, and status history fi
 
 4. Run `npm run dev`, then open `http://localhost:3000`. The owner dashboard is at `/admin/login`.
 
+## Customer accounts and checkout
+
+Customers can create an account at `/register` with an email and password, then sign in at `/login`. From the shopping bag, choose **Place order**: signed-in customers continue to the COD checkout/payment page, while signed-out visitors are sent to sign-in (or account creation) and returned to checkout after successful authentication. Direct visits to `/checkout` use the same protection. Customer accounts are stored separately by role from the owner account; registration cannot grant admin access.
+
+## Checking orders as the owner
+
+1. Set `ADMIN_EMAIL` and `ADMIN_PASSWORD` in `.env.local`, then run `npm run seed` once. The password is stored as a bcrypt hash; sign in at `/admin/login`.
+2. Open **Orders** from the left navigation in the owner dashboard (`/admin/orders`). Use the status/date filters or search by order ID, customer name, or phone number to find an order.
+3. Select an order ID to open its detail view and inspect the customer's contact information, full shipping address, items and quantities, COD payment method, totals, and current status. Pending orders can be accepted or rejected from the order list; rejection requires a reason.
+
+The public track-order page at `/track-order` is intended for customers; use the protected admin order details for the full order record.
+
 ## Vercel deployment
 
 Import the repository into Vercel and configure the variables from `.env.example` in Project Settings. Set both `NEXTAUTH_URL` and `NEXT_PUBLIC_SITE_URL` to the production origin, and use a newly generated production `NEXTAUTH_SECRET`. Restrict Atlas network access according to your plan. Run `npm run seed` against the production database once from a trusted environment before opening orders; do not seed development credentials into production.
@@ -33,6 +45,7 @@ Cash on delivery is the only active payment method. `src/lib/payments/provider.t
 
 - Checkout recalculates prices from MongoDB and persists an immutable customer/address snapshot. Orders start `PENDING`; inventory is decremented upon acceptance and restored when a previously accepted order is cancelled. Stock/status changes run in a MongoDB transaction, so use Atlas or a replica set.
 - Rate limiting is currently process-local. Before relying on it across multiple Vercel/serverless instances, replace it with a shared Redis/Upstash-backed store.
-- Seed the MongoDB products before accepting checkout orders. Demo product photos use Unsplash; use owned/licensed assets in production.
+- Seed the MongoDB products before accepting checkout orders. Re-running the seed updates legacy Unsplash demo photos to the local brand assets, but preserves other existing product data and custom image URLs.
+- Candle and wax-bar gallery assets are stored locally under `public/candle/` and `public/waxbars/`; add new images to those folders and include their path and descriptive alt text in `src/lib/brand-images.ts` to show them in the galleries.
 - Confirm business address, support email, returns policy, shipping promises, WhatsApp number, tax treatment, and all customer-facing legal copy before launch.
 - Run `npm run lint`, `npx tsc --noEmit`, and `npm run build` before deployment.
