@@ -13,7 +13,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(login);
   }
   if (pathname.startsWith("/admin") && isAdminLogin && token?.role === "admin") return NextResponse.redirect(new URL("/admin", request.url));
-  if (pathname === "/checkout" && token?.role !== "customer") {
+  if ((pathname === "/checkout" || pathname === "/feedback") && token?.role !== "customer") {
     const login = new URL("/login", request.url);
     login.searchParams.set("callbackUrl", pathname);
     return NextResponse.redirect(login);
@@ -26,4 +26,4 @@ export async function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 
-export const config = { matcher: ["/admin/:path*", "/checkout", "/login", "/register"] };
+export const config = { matcher: ["/admin/:path*", "/checkout", "/feedback", "/login", "/register"] };

@@ -23,6 +23,8 @@ MongoDB is used because orders, customer snapshots, items, and status history fi
 
 Customers can create an account at `/register` with an email and password, then sign in at `/login`. From the shopping bag, choose **Place order**: signed-in customers continue to the COD checkout/payment page, while signed-out visitors are sent to sign-in (or account creation) and returned to checkout after successful authentication. Direct visits to `/checkout` use the same protection. Customer accounts are stored separately by role from the owner account; registration cannot grant admin access.
 
+The feedback page is available to signed-in customers only. Signed-out visitors are redirected to customer sign-in and returned to feedback afterward. The `/instagram` page uses the local Instagram profile image in `public/insta.jpg` and includes four reusable reel slots. To display a reel, pass its Instagram reel URL to the `url` prop of `InstagramReel` in `src/app/instagram/page.tsx`; until then, each slot shows a local candle image.
+
 ## Checking orders as the owner
 
 1. Set `ADMIN_EMAIL` and `ADMIN_PASSWORD` in `.env.local`, then run `npm run seed` once. The password is stored as a bcrypt hash; sign in at `/admin/login`.
