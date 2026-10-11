@@ -15,7 +15,7 @@ MongoDB is used because orders, customer snapshots, items, and status history fi
    npm run seed
    ```
 
-   This creates a bcrypt-hashed owner account, 12 sample products, three collections, and default shipping settings. Products and collections are inserted idempotently; the owner hash is updated from the environment on each run.
+   This creates a bcrypt-hashed owner account, 20 sample candles, two wax-bar products, four collections, and default shipping settings. Sample candle prices are ₹499–₹699 and wax bars are ₹150 each. Re-running the seed updates prices for those sample products; the owner hash is updated from the environment on each run.
 
 4. Run `npm run dev`, then open `http://localhost:3000`. The owner dashboard is at `/admin/login`.
 
@@ -46,6 +46,6 @@ Cash on delivery is the only active payment method. `src/lib/payments/provider.t
 - Checkout recalculates prices from MongoDB and persists an immutable customer/address snapshot. Orders start `PENDING`; inventory is decremented upon acceptance and restored when a previously accepted order is cancelled. Stock/status changes run in a MongoDB transaction, so use Atlas or a replica set.
 - Rate limiting is currently process-local. Before relying on it across multiple Vercel/serverless instances, replace it with a shared Redis/Upstash-backed store.
 - Seed the MongoDB products before accepting checkout orders. Re-running the seed updates legacy Unsplash demo photos to the local brand assets, but preserves other existing product data and custom image URLs.
-- Candle and wax-bar gallery assets are stored locally under `public/candle/` and `public/waxbars/`; add new images to those folders and include their path and descriptive alt text in `src/lib/brand-images.ts` to show them in the galleries.
+- Candle and wax-bar gallery assets are stored locally under `public/candle/` and `public/waxbars/`; add new images to those folders and include their path and descriptive alt text in `src/lib/brand-images.ts` to show them in the galleries. The seed script adds or refreshes matching sample candle products so gallery images open their own product details.
 - Confirm business address, support email, returns policy, shipping promises, WhatsApp number, tax treatment, and all customer-facing legal copy before launch.
 - Run `npm run lint`, `npx tsc --noEmit`, and `npm run build` before deployment.

@@ -22,8 +22,13 @@ async function seed() {
       stock: 24, published: true, variants: [{ name: "Classic", size: product.size, price: product.price, stock: 24 }],
     } }, { upsert: true });
     await ProductModel.updateOne({ slug: product.slug, image: /^https:\/\/images\.unsplash\.com\// }, { $set: { image: product.image } });
+    await ProductModel.updateOne({ slug: product.slug }, { $set: { price: product.price } });
+    await ProductModel.updateOne(
+      { slug: product.slug, "variants.name": "Classic", "variants.size": product.size },
+      { $set: { "variants.$.price": product.price } },
+    );
   }
-  for (const name of ["Signature candles", "Ritual candles", "Gift sets"]) {
+  for (const name of ["Signature candles", "Ritual candles", "Gift sets", "Wax bars"]) {
     const slug = name.toLowerCase().replaceAll(" ", "-");
     await Category.updateOne({ slug }, { $setOnInsert: { name, slug } }, { upsert: true });
   }

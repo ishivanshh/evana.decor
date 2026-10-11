@@ -27,7 +27,7 @@ export default function ShopPage() {
     (category === "All" || product.category === category) &&
     (scent === "All" || product.scent === scent) &&
     (size === "All" || product.size === size) &&
-    (price === "all" || (price === "under-1000" ? product.price < 1000 : price === "1000-1500" ? product.price >= 1000 && product.price <= 1500 : product.price > 1500)) &&
+    (price === "all" || (price === "under-500" ? product.price < 500 : price === "500-700" ? product.price >= 500 && product.price <= 700 : product.price > 700)) &&
     `${product.name} ${product.description} ${product.notes.join(" ")}`.toLowerCase().includes(search.toLowerCase())
   ).sort((a, b) => sort === "price-low" ? a.price - b.price : sort === "price-high" ? b.price - a.price : 0), [catalog, category, scent, size, price, sort, search]);
   return <div className="container-page pb-24">
@@ -37,7 +37,7 @@ export default function ShopPage() {
         <select aria-label="Category filter" value={category} onChange={event => setCategory(event.target.value)} className="border border-[#e8e1d8] bg-transparent px-3 py-2 text-xs"><option>All</option>{Array.from(new Set(catalog.map(product => product.category))).map(value => <option key={value}>{value}</option>)}</select>
         <select aria-label="Scent filter" value={scent} onChange={event => setScent(event.target.value)} className="border border-[#e8e1d8] bg-transparent px-3 py-2 text-xs"><option>All</option>{Array.from(new Set(catalog.map(product => product.scent))).map(value => <option key={value}>{value}</option>)}</select>
         <select aria-label="Size filter" value={size} onChange={event => setSize(event.target.value)} className="border border-[#e8e1d8] bg-transparent px-3 py-2 text-xs"><option value="All">All sizes</option>{Array.from(new Set(catalog.map(product => product.size))).map(value => <option key={value}>{value}</option>)}</select>
-        <select aria-label="Price filter" value={price} onChange={event => setPrice(event.target.value)} className="border border-[#e8e1d8] bg-transparent px-3 py-2 text-xs"><option value="all">Any price</option><option value="under-1000">Under ₹1,000</option><option value="1000-1500">₹1,000–₹1,500</option><option value="over-1500">Over ₹1,500</option></select>
+        <select aria-label="Price filter" value={price} onChange={event => setPrice(event.target.value)} className="border border-[#e8e1d8] bg-transparent px-3 py-2 text-xs"><option value="all">Any price</option><option value="under-500">Under ₹500</option><option value="500-700">₹500–₹700</option><option value="over-700">Over ₹700</option></select>
       </div>
       <div className="flex gap-4">
         <label className="flex items-center gap-2 border-b border-[#cbbcaf]"><Search size={14} /><input value={search} onChange={event => setSearch(event.target.value)} placeholder="Search scents" className="w-32 bg-transparent py-2 text-xs outline-none sm:w-44" /></label>

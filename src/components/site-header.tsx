@@ -6,7 +6,7 @@ import { Heart, Menu, Search, ShoppingBag, UserRound, X } from "lucide-react";
 import { useState } from "react";
 import { useCart } from "@/components/cart-provider";
 
-const links = [["Shop", "/shop"], ["Candles", "/candles"], ["Wax bars", "/waxbars"], ["Our story", "/about"]];
+const links = [["Candles", "/candles"], ["Wax bars", "/waxbars"], ["Our story", "/about"]];
 
 export function SiteHeader() {
   const pathname = usePathname();
