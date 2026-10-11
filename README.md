@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Evana
 
-## Getting Started
+An editorial, mobile-first storefront and owner dashboard for Evana's hand-poured candles. Built with Next.js App Router, TypeScript, Tailwind CSS, MongoDB/Mongoose, NextAuth credentials, Zod, Resend, and Cloudinary.
 
-First, run the development server:
+MongoDB is used because orders, customer snapshots, items, and status history fit naturally into documents, while Atlas provides managed hosting and transaction support for safe stock adjustments.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Local setup
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. Install Node.js 20.19+ and create a MongoDB Atlas database. Create a database user with access only to the Evana database and allow your deployment IP in Atlas Network Access.
+2. Copy `.env.example` to `.env.local`. Set `MONGODB_URI`, a unique `NEXTAUTH_SECRET` (for example, `openssl rand -base64 32`), and owner credentials. Use a unique admin password of at least 12 characters. Never commit `.env.local`.
+3. Install dependencies and seed:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+   ```bash
+   npm install
+   npm run seed
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+   This creates a bcrypt-hashed owner account, 12 sample products, three collections, and default shipping settings. Products and collections are inserted idempotently; the owner hash is updated from the environment on each run.
 
-## Learn More
+4. Run `npm run dev`, then open `http://localhost:3000`. The owner dashboard is at `/admin/login`.
 
-To learn more about Next.js, take a look at the following resources:
+## Vercel deployment
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Import the repository into Vercel and configure the variables from `.env.example` in Project Settings. Set both `NEXTAUTH_URL` and `NEXT_PUBLIC_SITE_URL` to the production origin, and use a newly generated production `NEXTAUTH_SECRET`. Restrict Atlas network access according to your plan. Run `npm run seed` against the production database once from a trusted environment before opening orders; do not seed development credentials into production.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Configure a verified Resend sender domain and set `RESEND_API_KEY`, `EMAIL_FROM`, and `OWNER_EMAIL` for order notifications. Set the Cloudinary variables to enable product image uploads. Without these optional integrations, checkout and URL-based product images remain available; skipped email delivery is logged.
 
-## Deploy on Vercel
+## Payments
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Cash on delivery is the only active payment method. `src/lib/payments/provider.ts` defines the provider interface and a COD implementation. To add Razorpay or Stripe, implement a provider behind that interface, add a server-side payment-intent route and verified webhook handling, persist provider references, and update payment/order status only after a verified server event. Never trust client-submitted totals or a payment redirect as proof of payment. Keep checkout options disabled until credentials, webhooks, and failure/replay tests are in place.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Operational notes
+
+- Checkout recalculates prices from MongoDB and persists an immutable customer/address snapshot. Orders start `PENDING`; inventory is decremented upon acceptance and restored when a previously accepted order is cancelled. Stock/status changes run in a MongoDB transaction, so use Atlas or a replica set.
+- Rate limiting is currently process-local. Before relying on it across multiple Vercel/serverless instances, replace it with a shared Redis/Upstash-backed store.
+- Seed the MongoDB products before accepting checkout orders. Demo product photos use Unsplash; use owned/licensed assets in production.
+- Confirm business address, support email, returns policy, shipping promises, WhatsApp number, tax treatment, and all customer-facing legal copy before launch.
+- Run `npm run lint`, `npx tsc --noEmit`, and `npm run build` before deployment.

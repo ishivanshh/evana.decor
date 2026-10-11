@@ -11,7 +11,9 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        terra: "var(--terra)",
       },
+      fontFamily: { display: ["var(--font-display)"], sans: ["var(--font-sans)"] },
     },
   },
   plugins: [],

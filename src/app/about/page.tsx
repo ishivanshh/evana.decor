@@ -1,0 +1,6 @@
+import Image from "next/image";
+import { productImage } from "@/lib/catalog";
+export const metadata = { title: "Our story" };
+export default function AboutPage() {
+  return <div className="container-page py-12"><div className="grid items-center gap-10 md:grid-cols-2"><div className="relative aspect-[.9] overflow-hidden bg-[#e7ded3]"><Image src={productImage("photo-1602523961358-f9f03dd557db", 1100)} alt="An Evana candle in a thoughtful home" fill sizes="50vw" className="object-cover" /></div><div className="py-8"><p className="eyebrow">The heart of Evana</p><h1 className="font-display mt-4 text-6xl leading-[.98]">A little light,<br /><i>a lot of feeling.</i></h1><p className="mt-6 text-sm leading-7 text-[#71665d]">Evana was born from a love of home, and the small details that make it feel like a place to exhale. Founded by Jaya Saxena, we make hand-poured candles with natural soy wax and considered fragrances, right here in India.</p><p className="mt-4 text-sm leading-7 text-[#71665d]">Every candle is poured in small batches, checked by hand, and made to become part of your everyday — not just a beautiful thing on a shelf. Light one while the kettle boils. When the day asks you to slow down. Or simply because the room could use a little warmth.</p><p className="font-display mt-7 text-3xl italic">With warmth,<br />Jaya</p></div></div></div>;
+}
