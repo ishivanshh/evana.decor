@@ -35,7 +35,7 @@ The public track-order page at `/track-order` is intended for customers; use the
 
 ## Vercel deployment
 
-Import the repository into Vercel and configure the variables from `.env.example` in Project Settings. Set both `NEXTAUTH_URL` and `NEXT_PUBLIC_SITE_URL` to the production origin, and use a newly generated production `NEXTAUTH_SECRET`. Restrict Atlas network access according to your plan. Run `npm run seed` against the production database once from a trusted environment before opening orders; do not seed development credentials into production.
+Import the repository into Vercel and configure the variables from `.env.example` under **Project Settings → Environment Variables**. For Production, set `NEXTAUTH_URL` and `NEXT_PUBLIC_SITE_URL` to your canonical HTTPS domain (for example, `https://www.example.com`) and set `NEXTAUTH_SECRET` to a newly generated secret (`openssl rand -base64 32`). Do not reuse an account password as the secret. Apply the variables to the environments you use, then redeploy so the deployment receives them. Restrict Atlas network access according to your plan. Run `npm run seed` against the production database once from a trusted environment before opening orders; do not seed development credentials into production.
 
 Configure a verified Resend sender domain and set `RESEND_API_KEY`, `EMAIL_FROM`, and `OWNER_EMAIL` for order notifications. Set the Cloudinary variables to enable product image uploads. Without these optional integrations, checkout and URL-based product images remain available; skipped email delivery is logged.
 
