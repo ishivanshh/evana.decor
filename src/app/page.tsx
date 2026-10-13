@@ -1,11 +1,23 @@
 import Image from "next/image";
 import Link from "next/link";
+import { existsSync, readdirSync } from "node:fs";
+import path from "node:path";
 import { ArrowRight, Leaf, PackageCheck, Sparkles } from "lucide-react";
+import { EventSlider } from "@/components/event-slider";
 import { ProductShelf } from "@/components/product-shelf";
 import { Reveal } from "@/components/reveal";
 import { WhatsAppButton } from "@/components/whatsapp-button";
 import { candleImages, waxbarImages } from "@/lib/brand-images";
 import { products } from "@/lib/catalog";
+
+const eventDirectory = path.join(process.cwd(), "public", "event");
+const eventPhotos = existsSync(eventDirectory)
+  ? readdirSync(eventDirectory, { withFileTypes: true })
+      .filter(entry => entry.isFile() && /\.(avif|gif|jpe?g|png|webp)$/i.test(entry.name))
+      .sort((left, right) => left.name.localeCompare(right.name))
+      .slice(0, 5)
+      .map((entry, index) => ({ src: `/event/${entry.name}`, alt: `Evana at a Delhi pop-up event, photo ${index + 1}` }))
+  : [];
 
 export default function Home() {
   return <>
@@ -36,6 +48,16 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent" />
           <div className="absolute bottom-6 left-6 text-white"><h3 className="font-display text-3xl">{title}</h3><p className="mt-1 text-xs text-white/80">{copy}</p></div>
         </Link>)}
+      </div>
+    </section>
+    <section className="container-page grid items-center gap-8 py-16 md:grid-cols-2 md:gap-12 md:py-20">
+      <EventSlider photos={eventPhotos} />
+      <div className="max-w-xl py-4">
+        <p className="eyebrow">Out in the world, together</p>
+        <h2 className="font-display mt-3 text-4xl leading-tight sm:text-5xl">From our little studio to your favourite events.</h2>
+        <p className="mt-5 text-sm leading-7 text-[#71665d]">
+          We have been delighted to bring Evana to the Horn OK! Please festival in Delhi, Boho Bazaar, the National Crafts Museum in Delhi, and many lovely society events. Meeting you in person, sharing our candles, and hearing what you love is one of our favourite parts of this journey.
+        </p>
       </div>
     </section>
     <section className="bg-[#f1ebe3] py-20">

@@ -9,7 +9,7 @@ import { useCart } from "@/components/cart-provider";
 const links = [
   ["Candles", "/candles"],
   ["Wax bars", "/waxbars"],
-  ["Our story", "/about"],
+  ["Bulk orders", "/bulk-orders"],
 ];
 
 export function SiteHeader() {
