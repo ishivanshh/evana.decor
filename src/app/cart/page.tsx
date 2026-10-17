@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Trash2 } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
+import { CheckoutLink } from "@/components/checkout-link";
 import { productImage } from "@/lib/catalog";
 
 export default function CartPage() {
@@ -18,7 +19,7 @@ export default function CartPage() {
         <div><Link href={`/products/${product.slug}`} className="font-display text-2xl">{product.name}</Link><p className="mt-1 text-xs text-[#82776d]">{product.size} · {product.burnTime}</p><div className="mt-4 flex w-fit items-center border border-[#d8cec3] text-sm"><button onClick={() => update(product._id, quantity - 1)} className="px-3 py-1.5">−</button><span>{quantity}</span><button onClick={() => update(product._id, quantity + 1)} className="px-3 py-1.5">+</button></div></div>
         <div className="text-right"><p className="text-sm">₹{(product.price * quantity).toLocaleString("en-IN")}</p><button aria-label={`Remove ${product.name}`} onClick={() => remove(product._id)} className="mt-4 text-[#82776d]"><Trash2 size={15} /></button></div>
       </div>)}</div>
-      <aside className="h-fit bg-[#f1ebe3] p-6"><h2 className="font-display text-3xl">Order summary</h2><div className="mt-6 flex justify-between text-sm"><span>Subtotal</span><span>₹{subtotal.toLocaleString("en-IN")}</span></div><div className="mt-3 flex justify-between text-sm"><span>Shipping</span><span>{shipping ? `₹${shipping}` : "Complimentary"}</span></div><p className="mt-3 text-[10px] text-[#82776d]">{subtotal >= freeShippingThreshold ? "You've unlocked complimentary shipping." : `Add ₹${(freeShippingThreshold - subtotal).toLocaleString("en-IN")} for complimentary shipping.`}</p><div className="mt-5 flex justify-between border-t border-[#d8cec3] pt-5 text-base"><span>Total</span><span>₹{(subtotal + shipping).toLocaleString("en-IN")}</span></div><Link href="/checkout" className="btn-primary mt-6 w-full">Place order</Link><p className="mt-2 text-center text-[10px] text-[#82776d]">Sign in or create an account to continue.</p><Link href="/shop" className="mt-4 block text-center text-[10px] uppercase tracking-widest">Continue shopping</Link></aside>
+      <aside className="h-fit bg-[#f1ebe3] p-6"><h2 className="font-display text-3xl">Order summary</h2><div className="mt-6 flex justify-between text-sm"><span>Subtotal</span><span>₹{subtotal.toLocaleString("en-IN")}</span></div><div className="mt-3 flex justify-between text-sm"><span>Shipping</span><span>{shipping ? `₹${shipping}` : "Complimentary"}</span></div><p className="mt-3 text-[10px] text-[#82776d]">{subtotal >= freeShippingThreshold ? "You've unlocked complimentary shipping." : `Add ₹${(freeShippingThreshold - subtotal).toLocaleString("en-IN")} for complimentary shipping.`}</p><div className="mt-5 flex justify-between border-t border-[#d8cec3] pt-5 text-base"><span>Total</span><span>₹{(subtotal + shipping).toLocaleString("en-IN")}</span></div><CheckoutLink className="btn-primary mt-6 w-full">Place order</CheckoutLink><Link href="/shop" className="mt-4 block text-center text-[10px] uppercase tracking-widest">Continue shopping</Link></aside>
     </div>
   </div>;
 }

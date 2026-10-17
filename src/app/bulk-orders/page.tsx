@@ -4,14 +4,14 @@ import Link from "next/link";
 import { ArrowDown, ArrowRight, Sparkles } from "lucide-react";
 import { BulkOrderContact } from "@/components/bulk-order-contact";
 import { BulkOrderReviews } from "@/components/bulk-order-reviews";
-import { InstagramReel } from "@/components/instagram-reel";
 import { NumberTicker } from "@/components/ui/number-ticker";
 import { candleImages } from "@/lib/brand-images";
 
-const reelUrls = [
-  "https://www.instagram.com/reel/DeWgF-bgcjV/",
-  "https://www.instagram.com/reel/DU8IW69Enp5/",
-  "https://www.instagram.com/reel/DeCeRgazDRy/",
+const bulkOrderVideos = [
+  { src: "/orders/order1.mp4", title: "Evana bulk order video 1" },
+  { src: "/orders/orders2.mp4", title: "Evana bulk order video 2" },
+  { src: "/orders/orders3.mp4", title: "Evana bulk order video 3" },
+  { src: "/orders/orders4.mp4", title: "Evana bulk order video 4" },
 ];
 
 export const metadata: Metadata = {
@@ -82,12 +82,20 @@ export default function BulkOrdersPage() {
           <p className="eyebrow">A little behind the scenes</p>
           <h2 className="font-display mt-3 text-4xl sm:text-5xl">Evana on the go</h2>
         </div>
-        <div className="flex flex-col gap-4 sm:flex-row">
-          {reelUrls.map((url, index) => (
-            <div key={url} className="min-w-0 flex-1">
-              <InstagramReel
-                url={url}
-                poster={candleImages[index]}
+        <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap">
+          {bulkOrderVideos.map(video => (
+            <div key={video.src} className="min-w-0 flex-1 basis-[calc(50%-0.5rem)] overflow-hidden bg-[#eee7dd]">
+              <video
+                src={video.src}
+                title={video.title}
+                aria-label={video.title}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                poster="/orders/main.jpg"
+                className="aspect-[.72] h-full w-full object-cover"
               />
             </div>
           ))}

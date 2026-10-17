@@ -4,6 +4,7 @@ import { existsSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { ArrowRight, Leaf, PackageCheck, Sparkles } from "lucide-react";
 import { EventSlider } from "@/components/event-slider";
+import { DiwaliCollection } from "@/components/diwali-collection";
 import { ProductShelf } from "@/components/product-shelf";
 import { Reveal } from "@/components/reveal";
 import { WhatsAppButton } from "@/components/whatsapp-button";
@@ -34,6 +35,7 @@ export default function Home() {
       </div>
       <div className="absolute bottom-6 right-8 hidden text-[9px] uppercase tracking-[.2em] text-white/80 md:block">Hand-poured slowly in India</div>
     </section>
+    <DiwaliCollection />
     <section className="container-page grid grid-cols-1 gap-px border-x border-[#e8e1d8] bg-[#e8e1d8] py-5 sm:grid-cols-3">
       {[["Thoughtfully made", "100% natural soy wax", Leaf], ["A little more mindful", "Clean, considered fragrance", Sparkles], ["Arrives with care", "Gift-ready, always", PackageCheck]].map(([title, caption, Icon]) => {
         const Glyph = Icon as typeof Leaf;
@@ -65,10 +67,6 @@ export default function Home() {
         <div className="mb-10 flex items-end justify-between"><div><p className="eyebrow">Loved, lit, relit</p><h2 className="font-display mt-3 text-5xl">The ones you love</h2></div><Link href="/shop" className="text-[10px] uppercase tracking-widest">Shop all</Link></div>
         <ProductShelf />
       </div>
-    </section>
-    <section className="container-page section-space" id="candles">
-      <div className="mb-9 flex flex-wrap items-end justify-between gap-4"><div><p className="eyebrow">Poured and finished by hand</p><h2 className="font-display mt-3 text-5xl">The candle collection</h2><p className="mt-3 max-w-lg text-sm text-[#82776d]">A closer look at every handcrafted design in the Evana candle collection.</p></div><Link href="/candles" className="btn-outline">View all candles <ArrowRight size={14} /></Link></div>
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">{candleImages.slice(0, 10).map((image, index) => { const product = products.find(item => item.image === image.src && item.category !== "Wax bars") ?? products.filter(item => item.category !== "Wax bars")[index]; return <Link key={image.src} href={`/products/${product.slug}`} className="group relative aspect-[.78] overflow-hidden bg-[#eee7dd]"><Image src={image.src} alt={image.alt} fill sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw" className="object-cover transition duration-700 group-hover:scale-105" /><div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent px-3 pb-3 pt-10 text-white"><p className="font-display text-xl">{product.name}</p><p className="mt-1 text-xs">₹{product.price.toLocaleString("en-IN")}</p></div></Link>; })}</div>
     </section>
     <section className="bg-[#f1ebe3] py-16" id="waxbars">
       <div className="container-page"><div className="mb-8 flex flex-wrap items-end justify-between gap-4"><div><p className="eyebrow">Small melts, lovely moments</p><h2 className="font-display mt-3 text-5xl">Wax bars</h2><p className="mt-3 text-sm text-[#82776d]">Fragrant little wax pieces for your favourite warmer. ₹150 each.</p></div><Link href="/waxbars" className="btn-outline">Explore wax bars <ArrowRight size={14} /></Link></div><div className="grid gap-5 sm:grid-cols-2">{waxbarImages.map(image => { const product = products.find(item => item.image === image.src); return <Link href={`/products/${product?.slug ?? "floral-garden-wax-bars"}`} key={image.src} className="group relative aspect-[1.5] overflow-hidden bg-[#e1d5c8]"><Image src={image.src} alt={image.alt} fill sizes="(max-width: 640px) 100vw, 50vw" className="object-cover transition duration-700 group-hover:scale-[1.03]" /><span className="absolute bottom-4 left-4 bg-[#fbf8f3]/90 px-4 py-2 font-display text-xl">{image.name} · ₹150</span></Link>; })}</div></div>

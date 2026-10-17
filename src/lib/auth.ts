@@ -39,7 +39,17 @@ export const authOptions: NextAuthOptions = {
     },
   })],
   callbacks: {
-    async jwt({ token, user }) { if (user) { token.role = (user as typeof user & { role?: string }).role; token.sub = user.id; } return token; },
+    async jwt({ token, user }) {
+      if (user) {
+        token.role = (user as typeof user & { role?: string }).role;
+        token.sub = user.id;
+      } else if (token.sub && !token.role) {
+        await connectDB();
+        const existingUser = await User.findById(token.sub).select("role").lean();
+        if (existingUser) token.role = existingUser.role;
+      }
+      return token;
+    },
     async session({ session, token }) { if (session.user) { session.user.role = token.role as string; session.user.id = token.sub; } return session; },
   },
 };
