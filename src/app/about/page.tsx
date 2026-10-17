@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { productImage } from "@/lib/catalog";
 export const metadata = { title: "Our story" };
 export default function AboutPage() {
   return (
@@ -7,8 +6,8 @@ export default function AboutPage() {
       <div className="grid items-center gap-10 md:grid-cols-2">
         <div className="relative aspect-[.9] overflow-hidden bg-[#e7ded3]">
           <Image
-            src={productImage("photo-1602523961358-f9f03dd557db", 1100)}
-            alt="An Evana candle in a thoughtful home"
+            src="/our%20story.png"
+            alt="Evana's handmade floral candle arrangement"
             fill
             sizes="50vw"
             className="object-cover"

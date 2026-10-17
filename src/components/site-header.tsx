@@ -2,12 +2,20 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Heart, Menu, Search, ShoppingBag, UserRound, X } from "lucide-react";
+import { ChevronDown, Heart, Menu, Search, ShoppingBag, UserRound, X } from "lucide-react";
 import { useState } from "react";
 import { useCart } from "@/components/cart-provider";
 
+const candleCollections = [
+  ["Jute", "/candle/jute"],
+  ["Gulban", "/candle/gulban"],
+  ["Diwali", "/candle/diwali"],
+  ["Valentine's", "/candle/valentines"],
+  ["Christmas", "/candle/christmas"],
+  ["Ocean", "/candle/ocean"],
+];
+
 const links = [
-  ["Candles", "/candles"],
   ["Wax bars", "/waxbars"],
   ["Bulk orders", "/bulk-orders"],
 ];
@@ -16,6 +24,7 @@ export function SiteHeader() {
   const pathname = usePathname();
   const { count, freeShippingThreshold } = useCart();
   const [open, setOpen] = useState(false);
+  const [candlesOpen, setCandlesOpen] = useState(false);
   if (pathname.startsWith("/admin")) return null;
   return (
     <>
@@ -33,6 +42,43 @@ export function SiteHeader() {
             {open ? <X size={19} /> : <Menu size={19} />}
           </button>
           <nav className="hidden items-center gap-8 lg:flex">
+            <div
+              className="relative"
+              onMouseEnter={() => setCandlesOpen(true)}
+              onMouseLeave={() => setCandlesOpen(false)}
+              onFocus={() => setCandlesOpen(true)}
+              onBlur={event => {
+                if (!event.currentTarget.contains(event.relatedTarget)) setCandlesOpen(false);
+              }}
+            >
+              <Link
+                href="/candles"
+                aria-haspopup="true"
+                aria-expanded={candlesOpen}
+                className="flex items-center gap-1 text-[10px] uppercase tracking-[.16em] text-[#62564d] transition hover:text-[#a85f45]"
+              >
+                Candles <ChevronDown size={12} />
+              </Link>
+              <div className={`absolute left-0 top-full min-w-44 pt-3 transition ${candlesOpen ? "visible opacity-100" : "invisible opacity-0"}`}>
+                <div className="border border-[#e8e1d8] bg-[#fbf8f3] py-2 shadow-lg">
+                  <Link
+                    href="/candles"
+                    className="block px-4 py-2.5 text-[10px] uppercase tracking-[.14em] text-[#62564d] hover:bg-[#f1ebe3] hover:text-[#a85f45]"
+                  >
+                    Explore all candles
+                  </Link>
+                  {candleCollections.map(([label, href]) => (
+                    <Link
+                      key={label}
+                      href={href}
+                      className="block px-4 py-2.5 text-[10px] uppercase tracking-[.14em] text-[#62564d] hover:bg-[#f1ebe3] hover:text-[#a85f45]"
+                    >
+                      {label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
             {links.map(([label, href]) => (
               <Link
                 key={label}
@@ -80,6 +126,23 @@ export function SiteHeader() {
         </div>
         {open && (
           <nav className="absolute inset-x-0 top-full border-b border-[#e8e1d8] bg-[#fbf8f3] px-6 py-5 shadow-sm lg:hidden">
+            <Link
+              onClick={() => setOpen(false)}
+              className="block border-b border-[#e8e1d8] py-4 text-xs uppercase tracking-widest"
+              href="/candles"
+            >
+              All candles
+            </Link>
+            {candleCollections.map(([label, href]) => (
+              <Link
+                onClick={() => setOpen(false)}
+                key={label}
+                className="block border-b border-[#e8e1d8] py-4 pl-4 text-xs uppercase tracking-widest"
+                href={href}
+              >
+                {label}
+              </Link>
+            ))}
             {links.map(([label, href]) => (
               <Link
                 onClick={() => setOpen(false)}

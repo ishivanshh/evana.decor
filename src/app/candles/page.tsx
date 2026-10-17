@@ -3,13 +3,12 @@ import path from "node:path";
 import Image from "next/image";
 import Link from "next/link";
 import { candleImages } from "@/lib/brand-images";
-import { products } from "@/lib/catalog";
+import { productImage, products } from "@/lib/catalog";
 
 export const metadata = { title: "Handcrafted candles", description: "Explore Evana's complete collection of handcrafted candles." };
 
 const imageDirectories = [
-  { directory: path.join(process.cwd(), "public", "candle"), urlPrefix: "/candle" },
-  { directory: path.join(process.cwd(), "public", "Evana", "photos"), urlPrefix: "/Evana/photos" },
+  { directory: path.join(process.cwd(), "public", "collection", "photos"), urlPrefix: "/collection/photos" },
 ];
 
 const galleryImages = imageDirectories.flatMap(({ directory, urlPrefix }) => {
@@ -35,7 +34,7 @@ export default function CandlesPage() {
       </div>
       <div className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
         {galleryImages.map(image => {
-          const product = products.find(item => item.image === image.src && item.category !== "Wax bars");
+          const product = products.find(item => productImage(item.image) === image.src && item.category !== "Wax bars");
           const card = (
             <>
               <div className="relative aspect-[.76] overflow-hidden bg-[#eee7dd]">

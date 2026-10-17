@@ -30,7 +30,7 @@ export default function Home() {
           <p className="eyebrow !text-[#ead0b8]">A softer kind of everyday</p>
           <h1 className="font-display mt-6 text-6xl leading-[.98] md:text-8xl">Come home<br />to a slower<br /><i>glow.</i></h1>
           <p className="mt-7 max-w-sm text-sm leading-7 text-white/85">Hand-poured soy candles, made in small batches for the moments that make a house feel like yours.</p>
-          <Link href="/shop" className="mt-9 inline-flex items-center gap-3 border border-white/75 px-6 py-4 text-[10px] uppercase tracking-[.18em] transition hover:bg-white hover:text-[#382b23]">Find your ritual <ArrowRight size={14} /></Link>
+          <Link href="/candles" className="mt-9 inline-flex items-center gap-3 border border-white/75 px-6 py-4 text-[10px] uppercase tracking-[.18em] transition hover:bg-white hover:text-[#382b23]">Explore collection <ArrowRight size={14} /></Link>
         </Reveal>
       </div>
       <div className="absolute bottom-6 right-8 hidden text-[9px] uppercase tracking-[.2em] text-white/80 md:block">Hand-poured slowly in India</div>
@@ -43,7 +43,7 @@ export default function Home() {
       })}
     </section>
     <section className="section-space container-page">
-      <div className="mb-10 flex items-end justify-between"><div><p className="eyebrow">Made to be lived with</p><h2 className="font-display mt-3 text-5xl">Find your feeling</h2></div><Link href="/shop" className="hidden items-center gap-2 text-[10px] uppercase tracking-widest sm:flex">Explore all <ArrowRight size={14} /></Link></div>
+      <div className="mb-10 flex items-end justify-between"><div><p className="eyebrow">Made to be lived with</p><h2 className="font-display mt-3 text-5xl">Find your feeling</h2></div><Link href="/candles" className="hidden items-center gap-2 text-[10px] uppercase tracking-widest sm:flex">Explore collection <ArrowRight size={14} /></Link></div>
       <div className="grid gap-4 sm:grid-cols-3">
         {[["Everyday rituals", "Quiet little moments, made special.", candleImages[6].src, "/shop?category=Ritual+candles"], ["Signature scents", "The scents you'll come back to.", candleImages[9].src, "/candles"], ["Thoughtful gifting", "A little warmth, beautifully wrapped.", candleImages[5].src, "/shop?category=Gift+sets"]].map(([title, copy, image, href]) => <Link href={href} key={title} className="group relative aspect-[.95] overflow-hidden bg-[#dfd0bf]">
           <Image src={image} alt={title} fill sizes="(max-width: 640px) 100vw, 33vw" className="object-cover transition duration-700 group-hover:scale-[1.04]" />
@@ -72,7 +72,7 @@ export default function Home() {
       <div className="container-page"><div className="mb-8 flex flex-wrap items-end justify-between gap-4"><div><p className="eyebrow">Small melts, lovely moments</p><h2 className="font-display mt-3 text-5xl">Wax bars</h2><p className="mt-3 text-sm text-[#82776d]">Fragrant little wax pieces for your favourite warmer. ₹150 each.</p></div><Link href="/waxbars" className="btn-outline">Explore wax bars <ArrowRight size={14} /></Link></div><div className="grid gap-5 sm:grid-cols-2">{waxbarImages.map(image => { const product = products.find(item => item.image === image.src); return <Link href={`/products/${product?.slug ?? "floral-garden-wax-bars"}`} key={image.src} className="group relative aspect-[1.5] overflow-hidden bg-[#e1d5c8]"><Image src={image.src} alt={image.alt} fill sizes="(max-width: 640px) 100vw, 50vw" className="object-cover transition duration-700 group-hover:scale-[1.03]" /><span className="absolute bottom-4 left-4 bg-[#fbf8f3]/90 px-4 py-2 font-display text-xl">{image.name} · ₹150</span></Link>; })}</div></div>
     </section>
     <section className="container-page grid items-center gap-10 py-20 md:grid-cols-2 md:gap-20">
-      <div className="relative aspect-[.95] overflow-hidden bg-[#ded1c1]"><Image src={candleImages[2].src} alt={candleImages[2].alt} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" /></div>
+      <div className="relative aspect-[.95] overflow-hidden bg-[#ded1c1]"><Image src="/our%20story.png" alt="Evana's handmade floral candle arrangement" fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" /></div>
       <div className="max-w-lg py-5"><p className="eyebrow">A note from Jaya</p><h2 className="font-display mt-4 text-5xl leading-tight md:text-6xl">A little light,<br /><i>a lot of feeling.</i></h2><p className="mt-6 text-sm leading-7 text-[#71665d]">Evana began with a simple thought: the things we bring into our homes should help us feel more at home. Each candle is poured by hand, in small batches, with ingredients chosen with intention.</p><Link href="/about" className="btn-outline mt-8">Our story <ArrowRight size={13} className="ml-3" /></Link></div>
     </section>
     <section className="bg-[#4a3a31] py-16 text-center text-[#f8f3ed]"><p className="eyebrow !text-[#d3a38a]">Kind words, warm hearts</p><p className="font-display mx-auto mt-5 max-w-3xl text-3xl leading-snug md:text-5xl">“It doesn’t just smell beautiful. It somehow makes the whole room feel like a deep breath.”</p><p className="mt-6 text-[9px] uppercase tracking-[.2em] text-[#c7b9ae]">— Aditi, verified customer</p><Link href="/feedback" className="btn-outline mt-8 border-[#b7a99c] text-white hover:text-white">Share your feedback</Link></section>

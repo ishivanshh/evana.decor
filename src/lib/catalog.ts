@@ -42,5 +42,31 @@ export const products: Product[] = [
   { _id: "w2", name: "Festive Collection Wax Bars", slug: "festive-collection-wax-bars", category: "Wax bars", scent: "Mixed", description: "A festive set of fragrant wax melts, hand-poured in small batches for cosy evenings at home.", notes: ["Seasonal spice", "Warm woods"], burnTime: "For wax warmers", size: "Set of wax bars", price: 150, image: "/waxbars/waxbar-festive-collection.png", rating: 4.8 },
 ];
 
-export const productImage = (id: string, width = 900) => id.startsWith("/") || id.startsWith("https://") ? id : `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${width}&q=85`;
+const movedCandleImages: Record<string, string> = {
+  "/candle/candle-amber-jar.jpg": "/categories/diwali/candle-amber-jar.jpg",
+  "/candle/candle-rose-jar.png": "/categories/diwali/candle-rose-jar.png",
+  "/candle/candle-garden-jar.png": "/collection/photos/sunflower.jpg",
+  "/candle/candle-floral-pink.png": "/collection/photos/bouquet.jpg",
+  "/candle/candle-martini-rose.png": "/categories/diwali/candle-martini-rose.png",
+  "/candle/candle-floral-wax-arrangement.jpg": "/categories/ocean/candle-floral-wax-arrangement.jpg",
+  "/candle/candle-tulip-glass.png": "/categories/diwali/horizontal.jpg",
+  "/candle/candle-jar-bouquet.png": "/categories/valentine/candle-jar-bouquet.png",
+  "/candle/candle-overloaded-love.png": "/categories/valentine/candle-overloaded-love.png",
+  "/candle/candle-floral-bouquet.png": "/categories/diwali/candle-floral-bouquet.png",
+  "/candle/candle-red-floral-tray.png": "/categories/valentine/candle-red-floral-tray.png",
+  "/candle/candle-floral-seashell-pair.jpg": "/categories/ocean/20241205_091922.jpg",
+  "/candle/candle-double-flower-bowl.jpg": "/collection/photos/20241205_092158.jpg",
+  "/candle/candle-red-daisy-pair.jpg": "/categories/valentine/10.png",
+  "/candle/candle-rustic-red-floral-bowl.png": "/categories/valentine/candle-rustic-red-floral-bowl.png",
+  "/candle/candle-red-sculpted-floral-bowl.jpg": "/categories/diwali/candle-red-sculpted-floral-bowl.jpg",
+  "/candle/candle-pink-glass-flower-candles.jpg": "/categories/diwali/candle-pink-glass-flower-candles.jpg",
+  "/candle/candle-wooden-floral-tealight-tray.png": "/categories/gulban/20260301_172045.jpg",
+};
+
+export const productImage = (id: string, width = 900) => {
+  const currentImage = movedCandleImages[id] ?? id;
+  return currentImage.startsWith("/") || currentImage.startsWith("https://")
+    ? currentImage
+    : `https://images.unsplash.com/${currentImage}?auto=format&fit=crop&w=${width}&q=85`;
+};
 export const productHref = (slug: string) => `/products/${slug}`;
