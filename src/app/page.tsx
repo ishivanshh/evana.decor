@@ -23,7 +23,7 @@ const eventPhotos = existsSync(eventDirectory)
 export default function Home() {
   return <>
     <section className="relative min-h-[620px] overflow-hidden bg-[#d9c8b4] md:min-h-[720px]">
-      <Image src="/home/evana-home-hero.jpg" alt="A softly lit Evana candle at home" fill priority sizes="100vw" className="object-cover object-center" />
+      <Image src="/categories/diwali/horizontal.jpg" alt="A softly lit Evana candle surrounded by flowers" fill priority sizes="100vw" className="object-cover object-center" />
       <div className="absolute inset-0 bg-gradient-to-r from-[#30241c]/65 via-[#30241c]/25 to-transparent" />
       <div className="container-page relative flex min-h-[620px] items-center md:min-h-[720px]">
         <Reveal className="max-w-xl py-20 text-[#fffaf5]">
